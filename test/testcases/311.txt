@@ -1,0 +1,5 @@
+func add(number a, number b) return a + b
+        func main() begin
+        var result <- add(5, 3)
+        end
+        

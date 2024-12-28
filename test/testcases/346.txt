@@ -1,0 +1,11 @@
+func sumArray(number arr[], number size)
+        begin
+        if (size = 0) return 0
+        else return arr[size - 1] + sumArray(arr, size - 1)
+        end
+        func main()
+        begin
+        number myArray[5] <- [1, 2, 3, 4, 5]
+        var total <- sumArray(myArray, 5)
+        end
+        

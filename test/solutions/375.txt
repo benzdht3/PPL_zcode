@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(isFridayThe13th), [], Block([VarDecl(Id(today), None, var, StringLit(2024-03-12)), Return(BinaryOp(=, Id(today), StringLit(2024-03-12)))]))])

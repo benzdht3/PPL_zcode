@@ -1,0 +1,7 @@
+func calculate(number a, number b) 
+        begin
+        var result <- a + b
+        if (result > 10) return "Greater"
+        else return "Smaller or Equal"
+        end
+        

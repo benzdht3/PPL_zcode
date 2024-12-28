@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(checkRange), [VarDecl(Id(x), NumberType, None, None)], Block([If((BinaryOp(>, Id(x), NumLit(0.0)), Block([If((BinaryOp(<, Id(x), NumLit(10.0)), Block([CallStmt(Id(printString), [StringLit(In range)])])), [], None)])), [], None)]))])

@@ -1,0 +1,8 @@
+func checkString(string str) 
+        begin
+        if (str = "Hello") 
+        begin
+        printString("Greeting detected")
+        end
+        end
+        

@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(fibonacci), [VarDecl(Id(n), NumberType, None, None)], Block([If((BinaryOp(<=, Id(n), NumLit(1.0)), Block([Return(Id(n))])), [], None), Return(BinaryOp(+, CallExpr(Id(fibonacci), [BinaryOp(-, Id(n), NumLit(1.0))]), CallExpr(Id(fibonacci), [BinaryOp(-, Id(n), NumLit(2.0))])))]))])

@@ -1,0 +1,2 @@
+var result <- (factorial(5) + fibonacci(8)) / sumArray([1, 2, 3, 4, 5])
+        

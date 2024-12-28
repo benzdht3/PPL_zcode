@@ -1,0 +1,11 @@
+func checkRange(number x) 
+        begin
+        if (x > 0) 
+        begin
+        if (x < 10) 
+        begin
+        printString("In range")
+        end
+        end
+        end
+        

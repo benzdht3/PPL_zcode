@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], Block([VarDecl(Id(x), None, var, NumLit(10.0)), If((BinaryOp(>, Id(x), NumLit(5.0)), Block([If((BinaryOp(<, Id(x), NumLit(15.0)), Block([VarDecl(Id(y), None, var, NumLit(20.0))])), [], None)])), [], None)]))])

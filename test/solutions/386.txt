@@ -1,0 +1,1 @@
+Program([VarDecl(Id(isValid), None, var, CallExpr(Id(checkInput), [BinaryOp(and, BinaryOp(>, Id(x), NumLit(0.0)), BinaryOp(<, Id(y), NumLit(10.0)))]))])

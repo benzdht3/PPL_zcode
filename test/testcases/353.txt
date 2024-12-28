@@ -1,0 +1,10 @@
+func isPalindrome(string str) 
+        begin
+        var length <- strlength
+        for i until i < length / 2 by 1 
+        begin
+        if (str[i] != str[length - i - 1]) return false
+        end
+        return true
+        end
+        

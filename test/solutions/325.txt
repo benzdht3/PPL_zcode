@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(concatenate), [VarDecl(Id(str1), StringType, None, None), VarDecl(Id(str2), StringType, None, None)], Return(BinaryOp(..., Id(str1), Id(str2)))), FuncDecl(Id(main), [], Block([VarDecl(Id(result), StringType, None, CallExpr(Id(concatenate), [StringLit(Hello), StringLit(World)]))]))])

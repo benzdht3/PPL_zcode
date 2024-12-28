@@ -1,0 +1,17 @@
+func processArray(number arr[5]) 
+        begin
+        var sum <- 0
+        var i <- 0
+        for i until i < 5 by 1 
+        begin
+        if (arr[i] > 0) 
+        begin
+        sum <- sum + arr[i]
+        end 
+        else
+        begin
+        sum <- sum - arr[i]
+        end
+        end
+        end
+        

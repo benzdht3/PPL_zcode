@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(isZero), [VarDecl(Id(n), NumberType, None, None)], Return(BinaryOp(=, Id(n), NumLit(0.0))))])

@@ -1,0 +1,2 @@
+func isNegative(number n) return n < 0
+        

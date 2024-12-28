@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(checkConditions), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), NumberType, None, None), VarDecl(Id(flag), BoolType, None, None)], Block([If((BinaryOp(and, Id(flag), BinaryOp(>, Id(a), Id(b))), Block([CallStmt(Id(printString), [StringLit(Condition met)])])), [], Block([CallStmt(Id(printString), [StringLit(Condition not met)])]))]))])

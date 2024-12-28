@@ -1,0 +1,2 @@
+var message <- "The value of x is: " ... 10
+        

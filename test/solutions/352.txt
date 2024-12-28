@@ -1,0 +1,1 @@
+Program([VarDecl(Id(message), None, var, BinaryOp(..., StringLit(The value of x is: ), NumLit(10.0)))])

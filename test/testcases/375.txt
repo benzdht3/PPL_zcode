@@ -1,0 +1,5 @@
+func isFridayThe13th() begin
+        var today <- "2024-03-12" 
+        return today = "2024-03-12"
+        end
+        

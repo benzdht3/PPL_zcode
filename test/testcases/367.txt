@@ -1,0 +1,6 @@
+func main()
+        begin
+        number values[3] <- [1, 2, 3]
+        values[1] <- values[1] + 10
+        end
+        

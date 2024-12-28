@@ -1,0 +1,6 @@
+func concatenate(string str1, string str2) return str1 ... str2
+        func main() 
+        begin
+        string result <- concatenate("Hello", "World")
+        end
+        

@@ -1,0 +1,7 @@
+func innerFunc() 
+        func outerFunc() 
+        begin
+        writeString("Inside inner function")
+        innerFunc()
+        end
+        

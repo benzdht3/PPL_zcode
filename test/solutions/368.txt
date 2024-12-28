@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(isLeapYear), [VarDecl(Id(year), NumberType, None, None)], Return(BinaryOp(or, BinaryOp(and, BinaryOp(=, BinaryOp(%, Id(year), NumLit(4.0)), NumLit(0.0)), BinaryOp(!=, BinaryOp(%, Id(year), NumLit(100.0)), NumLit(0.0))), BinaryOp(=, BinaryOp(%, Id(year), NumLit(400.0)), NumLit(0.0)))))])

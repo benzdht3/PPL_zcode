@@ -1,0 +1,3 @@
+ var dishes <- ["Pho", "Banh Xeo", "Bun Cha", "Goi Cuon"]
+        var randomDish <- dishes[rand(0, len(dishes) - 1)]
+        

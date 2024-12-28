@@ -1,0 +1,1 @@
+Program([VarDecl(Id(haiku), None, var, StringLit(Autumn leaves falling,         Nature's symphony whispers,         Serenity found.))])

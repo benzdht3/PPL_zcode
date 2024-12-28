@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(printMessage), [VarDecl(Id(flag), BoolType, None, None)], Block([If((Id(flag), Block([CallStmt(Id(printString), [StringLit(True)])])), [], Block([CallStmt(Id(printString), [StringLit(False)])]))]))])

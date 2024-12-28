@@ -1,0 +1,1 @@
+Program([VarDecl(Id(name_with_), StringType, None, None)])

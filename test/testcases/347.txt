@@ -1,0 +1,8 @@
+func main()
+        begin
+        var sentence <- ""
+        for i until i < 5 by 1 begin
+        sentence <- sentence ... "Number " ... i ... ", "
+        end
+        end
+        

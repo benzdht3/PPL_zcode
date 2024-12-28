@@ -1,0 +1,12 @@
+func checkConditions(number a, number b, bool flag) 
+        begin
+        if (flag and (a > b)) 
+        begin
+        printString("Condition met")
+        end 
+        else 
+        begin
+        printString("Condition not met")
+        end
+        end
+        

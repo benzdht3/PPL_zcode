@@ -1,0 +1,11 @@
+func reverseString(string str) 
+        begin
+        var reversed <- ""
+        var i <- length(str) - 1
+        for i until i >= 0 by -1 
+        begin
+        reversed <- reversed + str[i]
+        end
+        return reversed
+        end
+        

@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], Block([If((BinaryOp(and, BinaryOp(>, Id(x), NumLit(0.0)), BinaryOp(<, Id(y), NumLit(10.0))), CallStmt(Id(print), [StringLit(Both x is positive and y is less than 10)])), [], None)]))])

@@ -1,0 +1,5 @@
+func main()
+        begin
+        if ((x > 0) and (y < 10)) print("Both x is positive and y is less than 10")
+        end
+        

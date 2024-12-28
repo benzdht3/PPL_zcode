@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(greet), [VarDecl(Id(name), StringType, None, None), VarDecl(Id(greeting), StringType, None, None)], Block([CallStmt(Id(printString), [BinaryOp(..., BinaryOp(..., Id(greeting), StringLit( )), Id(name))])]))])

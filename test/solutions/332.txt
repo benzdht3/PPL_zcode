@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(checkString), [VarDecl(Id(str), StringType, None, None)], Block([If((BinaryOp(=, Id(str), StringLit(Hello)), Block([CallStmt(Id(printString), [StringLit(Greeting detected)])])), [], None)]))])

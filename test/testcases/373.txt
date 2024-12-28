@@ -1,0 +1,2 @@
+func isZero(number n) return n = 0
+        

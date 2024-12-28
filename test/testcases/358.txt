@@ -1,0 +1,12 @@
+func bubbleSort(number arr[], number size) begin
+        for i until i < size - 1 by 1 begin
+        for j until j < size - i - 1 by 1 begin
+        if (arr[j] > arr[j + 1]) begin
+        var temp <- arr[j]
+        arr[j] <- arr[j + 1]
+        arr[j + 1] <- temp
+        end
+        end
+        end
+        end
+        

@@ -1,0 +1,6 @@
+func flipCoin() 
+        begin
+        var result <- ["Heads", "Tails"]
+        return result[rand(0, 1)]
+        end
+        

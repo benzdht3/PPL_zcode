@@ -1,0 +1,1 @@
+Program([VarDecl(Id(complexString), StringType, None, StringLit(This string includes HTML markup like <b>bold</b> and <i>italic</i>.))])

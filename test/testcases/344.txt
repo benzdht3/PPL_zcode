@@ -1,0 +1,12 @@
+func countVowels(string str) 
+        begin
+        var vowels <- 0
+        var i <- 0
+        for i until i < length(str) by 1 begin
+        if (str[i] = "a" or str[i] = "e" or str[i] = "i" or str[i] = "o" or str[i] = "u") begin
+        vowels <- vowels + 1
+        end
+        end
+        return vowels
+        end
+        

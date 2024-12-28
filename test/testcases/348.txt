@@ -1,0 +1,6 @@
+func main()
+        begin
+        number matrix[2, 2] <- [[1, 2], [3, 4]]
+        var element <- matrix[1,0]
+        end
+        

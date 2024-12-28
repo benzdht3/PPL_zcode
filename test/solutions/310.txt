@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], Block([VarDecl(Id(result), None, var, BinaryOp(+, NumLit(5.0), BinaryOp(*, NumLit(3.0), NumLit(2.0))))]))])

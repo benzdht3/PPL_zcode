@@ -1,0 +1,3 @@
+var coffeeShopNames <- ["Phuc Long", "Cong Caphe", "Highlands Coffee", "Trung Nguyen"]
+        var randomCoffeeShop <- coffeeShopNames[rand(0, len(coffeeShopNames) - 1)]
+        

@@ -1,0 +1,6 @@
+func main()
+        begin
+        if ((x > 0) and ((y < 10) or ((z >= 5) and not ((a == 0) or (b != 3)))))
+        print("Complex nested logical expression with multiple operators")
+        end
+        

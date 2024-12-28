@@ -1,0 +1,1 @@
+Program([VarDecl(Id(emptyarray), ArrayType([<missing NUMLIT>], NumberType), None, None)])

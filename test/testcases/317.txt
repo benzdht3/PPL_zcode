@@ -1,0 +1,11 @@
+func main() 
+        begin
+        var x <- 10
+        if (x > 5) begin
+        var y <- 20
+        end 
+        else begin
+        var z <- 30
+        end
+        end
+        

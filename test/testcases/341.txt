@@ -1,0 +1,7 @@
+func capitalizeString(string str) 
+        begin
+        var firstChar <- str[0]
+        var remaining <- substring(str, 1)
+        return upper(firstChar) + remaining
+        end
+        

@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(sumOfDigits), [VarDecl(Id(n), NumberType, None, None)], Return(BinaryOp(+, BinaryOp(%, Id(n), NumLit(10.0)), CallExpr(Id(sumOfDigits), [BinaryOp(/, Id(n), NumLit(10.0))]))))])

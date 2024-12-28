@@ -1,0 +1,1 @@
+Program([VarDecl(Id(fullName), None, var, BinaryOp(..., BinaryOp(..., BinaryOp(..., BinaryOp(..., BinaryOp(..., Id(firstName), StringLit( )), Id(lastName)), StringLit( is )), BinaryOp(-, Id(currentYear), Id(birthYear))), StringLit( years old.)))])

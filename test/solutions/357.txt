@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(getFirstThreeChars), [VarDecl(Id(str), StringType, None, None)], Return(BinaryOp(..., BinaryOp(..., ArrayCell(Id(str), [NumLit(0.0)]), ArrayCell(Id(str), [NumLit(1.0)])), ArrayCell(Id(str), [NumLit(2.0)]))))])

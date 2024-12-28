@@ -1,0 +1,15 @@
+func generateMatrix() 
+        begin
+        number matrix[3, 3]
+        var i <- 0
+        for i until i < 3 by 1 
+        begin
+        var j <- 0
+        for j until j < 3 by 1 
+        begin
+        matrix[i, j] <- i + j
+        end
+        end
+        return matrix
+        end
+        

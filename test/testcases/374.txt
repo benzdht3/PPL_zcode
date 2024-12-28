@@ -1,0 +1,2 @@
+var haiku <- "Autumn leaves falling,         Nature's symphony whispers,         Serenity found."
+        

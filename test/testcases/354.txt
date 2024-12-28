@@ -1,0 +1,5 @@
+func greet(string name, string greeting) 
+        begin
+        printString(greeting ... " " ... name)
+        end
+        

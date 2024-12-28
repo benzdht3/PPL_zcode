@@ -1,0 +1,5 @@
+func main() begin
+        number arr[5] <- [1, 2, 3, 4, 5]
+        var value <- arr[2]
+        end
+        

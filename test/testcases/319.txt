@@ -1,0 +1,4 @@
+func sumArray(number arr[3]) begin
+        var sum <- arr[0] + arr[1] + arr[2]
+        end
+        

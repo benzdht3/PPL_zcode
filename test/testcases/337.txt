@@ -1,0 +1,8 @@
+func gcd(number a, number b)
+        begin
+        if (b = 0) begin
+        return a
+        end
+        return gcd(b, a % b)
+        end
+        

@@ -1,0 +1,1 @@
+Program([VarDecl(Id(nestedResult), None, var, BinaryOp(/, BinaryOp(+, Id(a), BinaryOp(*, Id(b), BinaryOp(-, Id(c), Id(d)))), Id(e)))])

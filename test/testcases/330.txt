@@ -1,0 +1,5 @@
+func calculateExpression(number a, number b) 
+        begin
+        var result <- (a + b) * (a - b)
+        end
+        

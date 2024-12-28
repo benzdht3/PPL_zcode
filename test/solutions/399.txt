@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(thank_you_for_checking_it_out), [], Return(StringLit(^______^)))])

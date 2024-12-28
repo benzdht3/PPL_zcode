@@ -1,0 +1,8 @@
+func processArray(number arr[5]) 
+        begin
+        for i until i < 5 by 1 
+        begin
+        arr[i] <- arr[i] * arr[i]
+        end
+        end
+        

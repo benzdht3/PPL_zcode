@@ -1,0 +1,13 @@
+func findPrime(number n) 
+        begin
+        var prime <- true
+        for i until i < n by 1 begin
+        if (n % i == 0) 
+        begin
+        prime <- false
+        break
+        end
+        end
+        return prime
+        end
+        

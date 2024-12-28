@@ -1,0 +1,12 @@
+func printMessage(bool flag) 
+        begin
+        if (flag) 
+        begin
+        printString("True")
+        end 
+        else 
+        begin
+        printString("False")
+        end
+        end
+        

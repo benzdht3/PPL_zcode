@@ -1,0 +1,17 @@
+func checkValue(number x) 
+        begin
+        if (x < 0) 
+        begin
+        return "Negative"
+        end 
+        else 
+        if (x = 0) 
+        begin
+        return "Zero"
+        end 
+        else 
+        begin
+        return "Positive"
+        end
+        end
+        

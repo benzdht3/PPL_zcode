@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(innerFunc), [], None), FuncDecl(Id(outerFunc), [], Block([CallStmt(Id(writeString), [StringLit(Inside inner function)]), CallStmt(Id(innerFunc), [])]))])
