@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], None), VarDecl(Id(b), None, dynamic, BooleanLit(True)), VarDecl(Id(c), None, dynamic, NumLit(1)), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None)], Return(StringLit(ok))), FuncDecl(Id(foo1), [], Block([AssignStmt(CallExpr(Id(foo), [NumLit(1)]), Id(c))]))])

@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [], Block([VarDecl(Id(b), NumberType, None, None), AssignStmt(Id(b), CallExpr(Id(main), []))]))])

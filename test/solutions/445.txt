@@ -1,0 +1,1 @@
+Type Cannot Be Inferred: If((Id(b), Return()), [(CallExpr(Id(foo), [NumLit(1)]), Return())], None)

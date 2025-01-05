@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], None), VarDecl(Id(b), ArrayType([NumLit(1)], NumberType), None, None), VarDecl(Id(a), StringType, None, None), FuncDecl(Id(foo), [VarDecl(Id(x), BoolType, None, None), VarDecl(Id(y), NumberType, None, None)], Return(BinaryOp(and, Id(x), Id(y))))])

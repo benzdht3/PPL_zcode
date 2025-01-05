@@ -1,0 +1,1 @@
+Type Mismatch In Statement: AssignStmt(CallExpr(Id(foo2), [NumLit(1)]), CallExpr(Id(foo), [NumLit(1)]))

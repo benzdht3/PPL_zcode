@@ -1,0 +1,1 @@
+Type Cannot Be Inferred: AssignStmt(Id(b), CallExpr(Id(foo), [NumLit(1)]))

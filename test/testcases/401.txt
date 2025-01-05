@@ -1,7 +1,1 @@
-func calculate(number a, number b, number c)
-        begin
-        var result <- (a + b * c) / (a - c)
-        if (result < 0) return "Negative"
-        else return "Non-negative"
-        end
-        
+Program([FuncDecl(Id(main), [], None), VarDecl(Id(a), NumberType, None, None), VarDecl(Id(a), StringType, None, None)])

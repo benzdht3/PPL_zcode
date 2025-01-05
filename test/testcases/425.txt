@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], None), VarDecl(Id(a), NumberType, None, None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), NumberType, None, None)], Block([AssignStmt(UnaryOp([,], ArrayCell(Id(a), [NumLit(1)])), NumLit(1))]))])

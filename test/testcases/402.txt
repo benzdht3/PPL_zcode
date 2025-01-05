@@ -1,13 +1,1 @@
-func complexLoop()
-        begin
-        var sum <- 0
-        for i until i < 5 by 1
-        begin
-            for j until j < i by 1
-            begin
-                sum <- sum + i * j
-            end
-        end
-        return sum
-        end
-        
+Program([FuncDecl(Id(main), [], None), FuncDecl(Id(main), [], [<AST.Return object at 0x0000015FE8F334D0>])])

@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(m a i n), [], None), FuncDecl(Id(foo), [], Block([VarDecl(Id(b), NumberType, None, None)]))])

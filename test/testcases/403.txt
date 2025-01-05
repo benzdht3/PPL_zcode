@@ -1,6 +1,1 @@
-func recursiveFactorial(number n)
-        begin
-        if (n <= 1) return 1
-        else return n * recursiveFactorial(n - 1)
-        end
-        
+Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(a), BoolType, None, None)], Return(Id(a)))])

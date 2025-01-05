@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(nestedArrayOperations), [], Block([VarDecl(Id(matrix), ArrayType([2, 2], NumberType), None, ArrayLit(ArrayLit(NumLit(1.0), NumLit(2.0)), ArrayLit(NumLit(3.0), NumLit(4.0)))), VarDecl(Id(sum), None, var, BinaryOp(+, ArrayCell(Id(matrix), [NumLit(0.0), NumLit(0.0)]), ArrayCell(Id(matrix), [NumLit(1.0), NumLit(1.0)]))), AssignStmt(ArrayCell(Id(matrix), [NumLit(0.0), NumLit(1.0)]), BinaryOp(-, Id(sum), ArrayCell(Id(matrix), [NumLit(1.0), NumLit(0.0)]))), Return(Id(matrix))]))])
+Redeclared Parameter: a

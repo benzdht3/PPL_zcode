@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(main), [], None), VarDecl(Id(b), ArrayType([NumLit(1)], NumberType), None, None), VarDecl(Id(a), StringType, None, None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), StringType, None, None), VarDecl(Id(c), BoolType, None, None)], Return(NumLit(1))), FuncDecl(Id(foo1), [], Return(CallExpr(Id(foo), [Id(a), Id(a), Id(a)])))])

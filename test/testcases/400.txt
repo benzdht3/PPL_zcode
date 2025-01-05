@@ -1,12 +1,1 @@
-func nestedIfElse()
-        begin
-        if (x > 0) begin
-            if (x < 10) begin
-                if (x == 5) printString("x is 5")
-                else printString("x is between 0 and 10")
-            end
-            else printString("x is greater than 10")
-        end
-        else printString("x is not positive")
-        end
-        
+Program([VarDecl(Id(b), NumberType, None, None)])

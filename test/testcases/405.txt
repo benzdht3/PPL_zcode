@@ -1,10 +1,1 @@
-func calculatePower(number base, number exponent)
-        begin
-        var result <- 1
-        for i until i < exponent by 1
-        begin
-            result <- result * base
-        end
-        return result
-        end
-        
+Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), BoolType, None, None)], Return(Id(a))), FuncDecl(Id(foo), [], [<AST.Return object at 0x0000015FEA83CB00>])])
