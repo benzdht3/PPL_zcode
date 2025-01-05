@@ -1,1 +1,7 @@
-Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), NumberType, None, None)], Block([For(Id(x), BinaryOp(=, NumLit(0), NumLit(1)), NumLit(1), AssignStmt(Id(a), Id(b)))]))])
+
+        func main()
+        begin
+            number a[3] <- [1, 2, 3]
+            var b <- a[true] 
+        end
+        

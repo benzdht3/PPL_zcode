@@ -1,1 +1,7 @@
-Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), BoolType, None, None)], Return(BinaryOp(+, Id(a), Id(y))))])
+
+        func main()
+        begin 
+        var c <- 10
+        d <- c + 1
+        end
+        

@@ -1,1 +1,1 @@
-Undeclared Identifier: x
+Type Mismatch In Expression: BinaryOp(+, BooleanLit(True), NumLit(5.0))

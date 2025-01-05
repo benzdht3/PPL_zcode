@@ -1,1 +1,6 @@
-Program([FuncDecl(Id(main), [], None), VarDecl(Id(a), None, dynamic, ArrayCell(Id(b), [NumLit(1)]))])
+
+        func main()
+        begin
+            if (5) writeNumber(1)
+        end
+        

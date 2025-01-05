@@ -1,1 +1,7 @@
-Program([FuncDecl(Id(main), [], None), VarDecl(Id(a), None, dynamic, CallExpr(Id(foo), []))])
+
+        func bar()
+        func main()
+        begin
+            var y <- bar() 
+        end
+        

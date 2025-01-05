@@ -1,1 +1,5 @@
-Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(a), BoolType, None, None)], Return(Id(a)))])
+
+        func main()
+        dynamic y <- 3
+        var y <- 4
+        

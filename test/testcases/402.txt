@@ -1,1 +1,4 @@
-Program([FuncDecl(Id(main), [], None), FuncDecl(Id(main), [], [<AST.Return object at 0x0000015FE8F334D0>])])
+
+        func main()
+        func bar(number x, number x) begin end
+        

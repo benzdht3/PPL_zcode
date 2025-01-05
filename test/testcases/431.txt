@@ -1,1 +1,7 @@
-Program([FuncDecl(Id(main), [], None), VarDecl(Id(b), ArrayType([NumLit(1)], NumberType), None, None), VarDecl(Id(a), StringType, None, None), FuncDecl(Id(foo), [VarDecl(Id(x), BoolType, None, None), VarDecl(Id(y), BoolType, None, None)], Return(BinaryOp(or, Id(a), BinaryOp(and, Id(x), Id(y)))))])
+
+        func isPrime()
+        func main()
+        begin
+            if (isPrime()) writeString("Yes")
+        end
+        

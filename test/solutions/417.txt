@@ -1,1 +1,1 @@
-Undeclared Identifier: b
+Type Mismatch In Expression: CallExpr(Id(foo), [StringLit(hello)])

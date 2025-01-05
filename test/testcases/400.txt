@@ -1,1 +1,6 @@
-Program([VarDecl(Id(b), NumberType, None, None)])
+func main()
+        begin
+            var x <- 5
+            var x <- 10
+        end
+        

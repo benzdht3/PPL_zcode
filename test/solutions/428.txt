@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(+, Id(a), Id(b))
+Type Mismatch In Statement: If((BinaryOp(+, Id(x), Id(y)), CallStmt(Id(writeString), [StringLit(Equal)])), [], None)

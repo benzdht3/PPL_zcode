@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(and, Id(x), Id(y))
+No Function Definition: foo

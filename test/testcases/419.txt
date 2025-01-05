@@ -1,1 +1,6 @@
-Program([FuncDecl(Id(main), [], None), VarDecl(Id(a), NumberType, None, CallExpr(Id(foo), []))])
+
+        func main()
+        begin
+            var x <- not "string"
+        end
+        

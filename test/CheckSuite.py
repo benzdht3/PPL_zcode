@@ -5,319 +5,337 @@ from TestUtils import TestChecker
 from AST import *
 
 class CheckerSuite(unittest.TestCase):
-    def test_no_entry_point_400(self):
-        input = Program([VarDecl(Id("b"), NumberType())])
-        expect = "No Entry Point"
+    def test_case_400(self):
+        input = """func main()
+        begin
+            var x <- 5
+            var x <- 10
+        end
+        """
+        expect = "Redeclared Variable: x"
         self.assertTrue(TestChecker.test(input, expect, 400))
 
     #Redeclared
     def test_case_401(self):
-        input = Program([FuncDecl(Id("main"), [],None), VarDecl(Id("a"), NumberType()), VarDecl(Id("a"), StringType())])
-        expect = "Redeclared Variable: a"
+        input = """
+        func main()
+        func foo() begin end
+        func foo() begin end
+        """
+        expect = "Redeclared Function: foo"
         self.assertTrue(TestChecker.test(input, expect, 401))
     
     def test_case_402(self):
-        input = Program([FuncDecl(Id("main"), [],None), FuncDecl(Id("main"), [],[Return(Id("a"))])])
-        expect = "Redeclared Function: main"
+        input = """
+        func main()
+        func bar(number x, number x) begin end
+        """
+        expect = "Redeclared Parameter: x"
         self.assertTrue(TestChecker.test(input, expect, 402))
 
     def test_case_403(self):
-        input = Program([FuncDecl(Id("main"), [],None), FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("a"), BoolType())],Return(Id("a")))])
-        expect = "Redeclared Parameter: a"
+        input = """
+        func main()
+        var a <- 1
+        func test() begin var a <- 2 end
+        """
+        expect = "Redeclared Variable: a"
         self.assertTrue(TestChecker.test(input, expect, 403))
 
     def test_case_404(self):
-        input = Program([FuncDecl(Id("main"), [],None), FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("a"), BoolType())],Return(Id("a")))])
-        expect = "Redeclared Parameter: a"
+        input = """
+        func main()
+        dynamic y <- 3
+        var y <- 4
+        """
+        expect = "Redeclared Variable: y"
         self.assertTrue(TestChecker.test(input, expect, 404))
 
     def test_case_405(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())],Return(Id("a"))),
-        FuncDecl(Id("foo"), [],[Return(Id("a"))])
-        ])
-        expect = "Redeclared Function: foo"
+        input = """
+        func main()
+        func foo(number a)
+        var foo <- 42
+        """
+        expect = "Redeclared Variable: foo"
         self.assertTrue(TestChecker.test(input, expect, 405))
 
     def test_case_406(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())],Return(Id("a"))),
-        FuncDecl(Id("foo2"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("a"), BoolType())],Return(Id("a")))
-        ])
-        expect = "Redeclared Parameter: a"
+        input = """
+        func main()
+        number myArray[5]
+        number myArray[10]
+        """
+        expect = "Redeclared Variable: myArray"
         self.assertTrue(TestChecker.test(input, expect, 406))
 
     def test_case_407(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("x"), NumberType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())],Block([
-            VarDecl(Id("x"), NumberType()),
-            VarDecl(Id("y"), NumberType()),
-            VarDecl(Id("y"), NumberType())
-            ])
-        )
-        ])
-        expect = "Redeclared Variable: y"
+        input = """
+        func main()
+        func test()
+        func test(string s)
+        """
+        expect = "Redeclared Function: test"
         self.assertTrue(TestChecker.test(input, expect, 407))
 
     def test_case_408(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("x"), NumberType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())],Block([
-            VarDecl(Id("a"), NumberType())
-            ])
-        )
-        ])
-        expect = "Redeclared Variable: a"
+        input = """
+        func main()
+        var x <- 10
+        var x[2] <- [1, 2]  
+        """
+        expect = "Redeclared Variable: x"
         self.assertTrue(TestChecker.test(input, expect, 408))
 
     def test_case_409(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Return(Id("a"))),
-        FuncDecl(Id("foo1"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Return(Id("a"))),
-        FuncDecl(Id("foo1"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], None)
-        ])
-        expect = "Redeclared Function: foo1"
+        input = """
+        func main()
+        begin
+        x <- 5 
+        end
+        """
+        expect = "Undeclared Identifier: x"
         self.assertTrue(TestChecker.test(input, expect, 409))
 
     def test_case_410(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("x"), NumberType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Block([
-            VarDecl(Id("x"), NumberType()),
-            VarDecl(Id("y"), NumberType())
-            ])
-        ),
-        VarDecl(Id("y"), NumberType()),
-        VarDecl(Id("z"), NumberType()),
-        VarDecl(Id("z"), StringType()),
-        ])
-        expect = "Redeclared Variable: z"
+        input = """
+        func main()
+        var a <- y + 1
+        """
+        expect = "Undeclared Identifier: y"
         self.assertTrue(TestChecker.test(input, expect, 410))
-    
-    #Undeclared
+
     def test_case_411(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Return(Id("x"))),
-        ])
-        expect = "Undeclared Identifier: x"
+        input = """
+        func main()
+        begin 
+        foo()
+        end
+        """
+        expect = "Undeclared Function: foo"
         self.assertTrue(TestChecker.test(input, expect, 411))
 
     def test_case_412(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Return(BinaryOp("+",Id("a"),Id("y")))),
-        ])
-        expect = "Undeclared Identifier: y"
+        input = """
+        func main()
+        begin 
+        var c <- 10
+        d <- c + 1
+        end
+        """
+        expect = "Undeclared Identifier: d"
         self.assertTrue(TestChecker.test(input, expect, 412))
 
     def test_case_413(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Block([
-            Assign(Id("a"),Id("x"))
-            ])
-        ),
-        ])
+        input = """
+        func main()
+        begin 
+        writeNumber(x) 
+        end
+        """
         expect = "Undeclared Identifier: x"
         self.assertTrue(TestChecker.test(input, expect, 413))
 
     def test_case_414(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Block([
-            If(BinaryOp("=",Id("a"),Id("x")),Assign(Id("a"),Id("b")))
-            ])
-        ),
-        ])
-        expect = "Undeclared Identifier: x"
+        input = """
+        func main()
+        begin 
+        return foo()
+        end
+        """
+        expect = "Undeclared Function: foo"
         self.assertTrue(TestChecker.test(input, expect, 414))
 
     def test_case_415(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), NumberType())], Block([
-            If(BinaryOp("=",Id("a"),Id("b")),Assign(Id("a"),Id("x")))
-            ])
-        ),
-        ])
-        expect = "Undeclared Identifier: x"
+        input = """
+        func main()
+        begin
+            var x <- true + 5
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(+, BooleanLit(True), NumLit(5.0))"
         self.assertTrue(TestChecker.test(input, expect, 415))
 
     def test_case_416(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), NumberType())], Block([
-            For(Id("x"),BinaryOp("=",NumberLiteral(0),NumberLiteral(1)),NumberLiteral(1),Assign(Id("a"),Id("b")))
-            ])
-        ),
-        ])
-        expect = "Undeclared Identifier: x"
+        input = """
+        func main()
+        begin
+            number a[3] <- [1, 2, 3]
+            var b <- a[true] 
+        end
+        """
+        expect = "Type Mismatch In Expression: ArrayCell(Id(a), [BooleanLit(True)])"
         self.assertTrue(TestChecker.test(input, expect, 416))
 
     def test_case_417(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"),None,"var",Id("b"))
-        ])
-        expect = "Undeclared Identifier: b"
+        input = """
+        func foo(number x)
+        begin
+            return x
+        end
+
+        func main()
+        begin
+            var result <- foo("hello") 
+        end
+        """
+        expect = "Type Mismatch In Expression: CallExpr(Id(foo), [StringLit(hello)])"
         self.assertTrue(TestChecker.test(input, expect, 417))
 
     def test_case_418(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"),NumberType(),None,Id("b"))
-        ])
-        expect = "Undeclared Identifier: b"
+        input = """
+        func main()
+        begin
+            bool arr[2] <- [true, false]
+            var val <- arr[1] + 1
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(+, ArrayCell(Id(arr), [NumLit(1.0)]), NumLit(1.0))"
         self.assertTrue(TestChecker.test(input, expect, 418))
 
     def test_case_419(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"),NumberType(),None,CallExpr(Id("foo"),[]))
-        ])
-        expect = "Undeclared Function: foo"
+        input = """
+        func main()
+        begin
+            var x <- not "string"
+        end
+        """
+        expect = "Type Mismatch In Expression: UnaryOp(not, StringLit(string))"
         self.assertTrue(TestChecker.test(input, expect, 419))
 
     def test_case_420(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"),None,"dynamic",CallExpr(Id("foo"),[]))
-        ])
-        expect = "Undeclared Function: foo"
+        input = """
+        func bar()
+        func main()
+        begin
+            var y <- bar() 
+        end
+        """
+        expect = "Type Cannot Be Inferred: VarDecl(Id(y), None, var, CallExpr(Id(bar), []))"
         self.assertTrue(TestChecker.test(input, expect, 420))
 
     def test_case_421(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"),None,"dynamic",ArrayCell(Id("b"),[NumberLiteral(1)]))
-        ])
-        expect = "Undeclared Identifier: b"
+        input = """
+        func main()
+        begin
+            if (5) writeNumber(1)
+        end
+        """
+        expect = "Type Mismatch In Statement: If((NumLit(5.0), CallStmt(Id(writeNumber), [NumLit(1.0)])), [], None)"
         self.assertTrue(TestChecker.test(input, expect, 421))
 
     def test_case_422(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), BoolType())], Return(NumberLiteral(1))),
-        VarDecl(Id("x"),NumberType(),None,CallExpr(Id("foo"),[Id("a"),Id("b")]))
-        ])
-        expect = "Undeclared Identifier: a"
+        input = """
+        func main()
+        begin
+            var i <- 0
+            for i until "end" by 1 writeNumber(i)
+        end
+        """
+        expect = "Type Mismatch In Statement: For(Id(i), StringLit(end), NumLit(1.0), CallStmt(Id(writeNumber), [Id(i)]))"
         self.assertTrue(TestChecker.test(input, expect, 422))
 
     def test_case_423(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), NumberType())], Block([
-            CallStmt(Id("foo1"),[])
-            ])
-        )
-        ])
-        expect = "Undeclared Function: foo1"
+        input = """
+        func main()
+        begin
+            var x <- 5
+            x <- "hello"
+        end
+        """
+        expect = "Type Mismatch In Statement: AssignStmt(Id(x), StringLit(hello))"
         self.assertTrue(TestChecker.test(input, expect, 423))
 
     def test_case_424(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), NumberType())], Block([
-            CallStmt(Id("foo"),[])
-            ])
-        )
-        ])
-        expect = "Undeclared Function: foo"
+        input = """
+        func foo()
+        begin
+            return "abc"
+        end
+
+        func main()
+        begin
+            number x <- foo()
+        end
+        """
+        expect = "Type Mismatch In Statement: VarDecl(Id(x), NumberType, None, CallExpr(Id(foo), []))"
         self.assertTrue(TestChecker.test(input, expect, 424))
 
-    #Type Mismatch in Expression
     def test_case_425(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"), NumberType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), NumberType())], Block([
-            Assign(UnaryOp('[,]',ArrayCell(Id("a"),[NumberLiteral(1)])),NumberLiteral(1))
-            ])
-        )
-        ])
-        expect = "Type Mismatch In Expression: ArrayCell(Id(a), [NumLit(1)])"
+        input = """
+        func main()
+        begin
+            string arr[3] <- ["a", "b", "c"]
+            arr[0] <- 42
+        end
+        """
+        expect = "Type Mismatch In Statement: AssignStmt(ArrayCell(Id(arr), [NumLit(0.0)]), NumLit(42.0))"
         self.assertTrue(TestChecker.test(input, expect, 425))
 
     def test_case_426(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"), ArrayType([NumberLiteral(1)],NumberType())),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), NumberType())], Block([
-            Assign(UnaryOp('[,]',ArrayCell(Id("a"),[StringLiteral("1")])),NumberLiteral(1))
-            ])
-        )
-        ])
-        expect = "Type Mismatch In Expression: ArrayCell(Id(a), [StringLit(1)])"
+        input = """
+        func main()
+        begin
+            var x <- 5
+            writeNumber("string")
+        end
+        """
+        expect = "Type Mismatch In Statement: CallStmt(Id(writeNumber), [StringLit(string)])"
         self.assertTrue(TestChecker.test(input, expect, 426))
 
     def test_case_427(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("a"), ArrayType([NumberLiteral(1)],NumberType())),
-        VarDecl(Id("b"),StringType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("a"), NumberType()),VarDecl(Id("b"), NumberType())], Block([
-            Assign(UnaryOp('[,]',ArrayCell(Id("a"),[Id("b")])),NumberLiteral(1))
-            ])
-        )
-        ])
-        expect = "Type Mismatch In Expression: ArrayCell(Id(a), [Id(b)])"
+        input = """
+        func main()
+        begin
+            return 5
+        end
+        """
+        expect = "No Entry Point"
         self.assertTrue(TestChecker.test(input, expect, 427))
 
     def test_case_428(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("b"), ArrayType([NumberLiteral(1)],NumberType())),
-        VarDecl(Id("a"),StringType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("x"), NumberType()),VarDecl(Id("y"), StringType())], 
-            Return(BinaryOp("+",Id("a"),Id("b")))
-        )
-        ])
-        expect = "Type Mismatch In Expression: BinaryOp(+, Id(a), Id(b))"
+        input = """
+        func main()
+        begin
+            var x <- 5
+            var y <- 10
+            if (x + y) writeString("Equal")
+        end
+        """
+        expect = "Type Mismatch In Statement: If((BinaryOp(+, Id(x), Id(y)), CallStmt(Id(writeString), [StringLit(Equal)])), [], None)"
         self.assertTrue(TestChecker.test(input, expect, 428))
 
     def test_case_429(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("b"), ArrayType([NumberLiteral(1)],NumberType())),
-        VarDecl(Id("a"),StringType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("x"), NumberType()),VarDecl(Id("y"), NumberType())], 
-            Return(BinaryOp("=",Id("x"),BinaryOp("=",Id("x"),Id("y"))))
-        )
-        ])
-        expect = "Type Mismatch In Expression: BinaryOp(=, Id(x), BinaryOp(=, Id(x), Id(y)))"
+        input = """
+        func main()
+        begin
+            number x <- 5
+            x <- x + [1, 2]  ## Type mismatch: cannot add number and array.
+        end
+        """
+        expect = "Type Mismatch In Expression: BinaryOp(+, Id(x), ArrayLit(NumLit(1.0), NumLit(2.0)))"
         self.assertTrue(TestChecker.test(input, expect, 429))
 
     def test_case_430(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("b"), ArrayType([NumberLiteral(1)],NumberType())),
-        VarDecl(Id("a"),StringType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("x"), BoolType()),VarDecl(Id("y"), NumberType())], 
-            Return(BinaryOp("and",Id("x"),Id("y")))
-        )
-        ])
-        expect = "Type Mismatch In Expression: BinaryOp(and, Id(x), Id(y))"
+        input = """
+        func foo()
+        func main()
+        begin
+            foo()
+        end
+        """
+        expect = "No Function Definition: foo"
         self.assertTrue(TestChecker.test(input, expect, 430))
 
     def test_case_431(self):
-        input = Program([
-        FuncDecl(Id("main"), [],None),
-        VarDecl(Id("b"), ArrayType([NumberLiteral(1)],NumberType())),
-        VarDecl(Id("a"),StringType()),
-        FuncDecl(Id("foo"), [VarDecl(Id("x"), BoolType()),VarDecl(Id("y"), BoolType())], 
-            Return(BinaryOp("or",Id("a"),BinaryOp("and",Id("x"),Id("y"))))
-        )
-        ])
-        expect = "Type Mismatch In Expression: BinaryOp(or, Id(a), BinaryOp(and, Id(x), Id(y)))"
+        input = """
+        func isPrime()
+        func main()
+        begin
+            if (isPrime()) writeString("Yes")
+        end
+        """
+        expect = "Type Cannot Be Inferred: If((CallExpr(Id(isPrime), []), CallStmt(Id(writeString), [StringLit(Yes)])), [], None)"
         self.assertTrue(TestChecker.test(input, expect, 431))
 
     def test_case_432(self):
@@ -1013,7 +1031,7 @@ class CheckerSuite(unittest.TestCase):
         FuncDecl(Id("foo"), []),
         FuncDecl(Id("foo"), [VarDecl(Id("a"),NumberType())])
         ])
-        expect = "No Function Definition: foo"
+        expect = "Redeclared Function: foo"
         self.assertTrue(TestChecker.test(input, expect, 484))
 
     def test_case_485(self):

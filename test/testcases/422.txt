@@ -1,1 +1,7 @@
-Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), BoolType, None, None)], Return(NumLit(1))), VarDecl(Id(x), NumberType, None, CallExpr(Id(foo), [Id(a), Id(b)]))])
+
+        func main()
+        begin
+            var i <- 0
+            for i until "end" by 1 writeNumber(i)
+        end
+        

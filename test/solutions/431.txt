@@ -1,1 +1,1 @@
-Type Mismatch In Expression: BinaryOp(or, Id(a), BinaryOp(and, Id(x), Id(y)))
+Type Cannot Be Inferred: If((CallExpr(Id(isPrime), []), CallStmt(Id(writeString), [StringLit(Yes)])), [], None)

@@ -1,1 +1,1 @@
-Undeclared Function: foo
+Type Cannot Be Inferred: VarDecl(Id(y), None, var, CallExpr(Id(bar), []))

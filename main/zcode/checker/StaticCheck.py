@@ -1,13 +1,10 @@
-from array import ArrayType
-from tokenize import Number
-from unicodedata import name
 from AST import *
 from Visitor import *
 from Utils import Utils
 from StaticError import *
 from functools import reduce
 
-
+IOFUNC = ['writeNumber', 'readNumber', 'writeBool', 'readBool', 'writeString', 'readString']
 class StaticChecker(BaseVisitor, Utils):
     def __init__(self,ast):
         self.ast = ast
@@ -51,13 +48,17 @@ class StaticChecker(BaseVisitor, Utils):
                 if ast.varInit is None:
                     raise TypeMismatchInStatement(ast)
                 ityp,scope,iname=self.visit(ast.varInit,param)
-                if ityp[0] == 'none':
-                    raise TypeCannotBeInferred(ast)
-                if ityp[0] == 'undecl':
-                    raise Undeclared(Identifier(),iname)
-                if ityp[0] == 'array':
-                    raise TypeMismatchInStatement(ast)
-                param[name] = (ityp,self.scope)
+                if ityp[0] == 'func':
+                    if ityp[2] == 'none': raise TypeCannotBeInferred(ast)
+                    else: param[name] = (ityp[2],self.scope)
+                else:
+                    if ityp[0] == 'none':
+                        raise TypeCannotBeInferred(ast)
+                    if ityp[0] == 'undecl':
+                        raise Undeclared(Identifier(),iname)
+                    if ityp[0] == 'array':
+                        raise TypeMismatchInStatement(ast)
+                    param[name] = (ityp,self.scope)
             else:
                 raise TypeMismatchInStatement(ast)
         else:
@@ -85,7 +86,7 @@ class StaticChecker(BaseVisitor, Utils):
             elif ityp[0] == 'array' and ityp[0]==param[name][0][0]:
                 li=ityp[1]
                 lp=param[name][0][1]
-                if li[0][1]!=lp[0][1]:
+                if str(li[0][1]) != str(lp[0][1]):
                     raise TypeMismatchInStatement(ast)
                 if ityp[2]!=param[name][0][2]:
                     raise TypeMismatchInStatement(ast)
@@ -99,7 +100,7 @@ class StaticChecker(BaseVisitor, Utils):
             if name == 'main':
                 raise Redeclared(Function(),name)
             if self.scope == scope: 
-                if param[name][0][2] != 'none' and name != 'main':
+                if (param[name][0][2] != 'none' and name != 'main') or ast.body is None:
                     raise Redeclared(Function(),name)
         self.scope = 1.5
         paramfunc = dict()
@@ -124,6 +125,7 @@ class StaticChecker(BaseVisitor, Utils):
             for x in rmkey:
                 param.pop(x,None)
             if bodytyp is not None:
+                bodytyp = bodytyp[1]
                 param[name] = (['func',paramlist,bodytyp[0][0]],self.scope)
             else:
                 param[name] = (['func',paramlist,'void'],self.scope)
@@ -328,7 +330,9 @@ class StaticChecker(BaseVisitor, Utils):
         paramblock = param
         self.scope+=1
         for x in ast.stmt:
-            self.visit(x,paramblock)
+            res = self.visit(x,paramblock)
+            if res is not None and res[0] == 'return':
+                return res
         self.scope-=1
         rmkey=[]
         for x in param:
@@ -423,8 +427,8 @@ class StaticChecker(BaseVisitor, Utils):
                 id[0]=id[2]
             if id[0] == 'none':
                 raise TypeCannotBeInferred(ast)
-            return id,scope,name
-        return 'void'
+            return ('return', [id,scope,name])
+        return 'return','void'
 
     def visitAssign(self, ast, param):
         lhs,lscope,lname=self.visit(ast.lhs,param)
@@ -487,12 +491,31 @@ class StaticChecker(BaseVisitor, Utils):
 
     def visitCallStmt(self, ast, param):
         id,scope,name=self.visit(ast.name,param)
+
         if id[0]=='undecl':
-            raise Undeclared(Function(),name)
-        if id[2]=='none':
-            param[name][0][2] = 'void'
-            id[2]='void'
-        if id[0]!='func' or (id[2]!='void' and id[2]!='v'):
+            if name not in IOFUNC:
+                raise Undeclared(Function(),name)
+            arglist = ast.args
+            if 'read' in name:
+                if len(arglist) > 0: return TypeMismatchInStatement(ast)
+                return
+            else:
+                if len(arglist) != 1: return TypeMismatchInStatement(ast)
+                typ,scope,argname = self.visit(arglist[0],param)
+                if typ[0]=='func':
+                    if len(typ[2])==3:
+                        typ[0]=typ[2][0]
+                    else:
+                        typ[0]=typ[2]
+                if typ[0] == 'undecl':
+                    raise Undeclared(Identifier(),argname)
+                if typ[0]=='none':
+                    raise TypeCannotBeInferred(ast)
+                elif typ[0]!=name[5:].lower():
+                    raise TypeMismatchInStatement(ast)
+                return
+            
+        if id[0]!='func' or (id[2]!='void' and id[2]!='v' and id[2]!='none' and id[2]!='n'):
             raise TypeMismatchInStatement(ast)
         arglist = ast.args
         argfunc = id[1]

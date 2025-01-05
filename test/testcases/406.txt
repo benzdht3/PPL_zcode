@@ -1,1 +1,5 @@
-Program([FuncDecl(Id(main), [], None), FuncDecl(Id(foo), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(b), BoolType, None, None)], Return(Id(a))), FuncDecl(Id(foo2), [VarDecl(Id(a), NumberType, None, None), VarDecl(Id(a), BoolType, None, None)], Return(Id(a)))])
+
+        func main()
+        number myArray[5]
+        number myArray[10]
+        

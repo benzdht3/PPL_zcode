@@ -1,1 +1,8 @@
-Program([FuncDecl(Id(main), [], None), VarDecl(Id(b), ArrayType([NumLit(1)], NumberType), None, None), VarDecl(Id(a), StringType, None, None), FuncDecl(Id(foo), [VarDecl(Id(x), NumberType, None, None), VarDecl(Id(y), StringType, None, None)], Return(BinaryOp(+, Id(a), Id(b))))])
+
+        func main()
+        begin
+            var x <- 5
+            var y <- 10
+            if (x + y) writeString("Equal")
+        end
+        

@@ -1,1 +1,1 @@
-Undeclared Function: foo1
+Type Mismatch In Statement: AssignStmt(Id(x), StringLit(hello))
