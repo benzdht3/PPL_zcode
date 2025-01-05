@@ -92,7 +92,7 @@ class ASTGenSuite(unittest.TestCase):
     def test_308(self):
         input = """number a[1]
         """
-        expect = str(Program([VarDecl(Id("a"), ArrayType([1], NumberType()), None, None)]))
+        expect = str(Program([VarDecl(Id("a"), ArrayType([NumberLiteral(1)], NumberType()), None, None)]))
         self.assertTrue(TestAST.test(input, expect, 308))
 
     def test_309(self):
@@ -127,7 +127,7 @@ class ASTGenSuite(unittest.TestCase):
         var value <- arr[2]
         end
         """
-        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("arr"), ArrayType([5], NumberType()), None, ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0), NumberLiteral(4.0), NumberLiteral(5.0)])), VarDecl(Id("value"), None, "var", ArrayCell(Id("arr"), [NumberLiteral(2.0)]))]))]))
+        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("arr"), ArrayType([NumberLiteral(5)], NumberType()), None, ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0), NumberLiteral(4.0), NumberLiteral(5.0)])), VarDecl(Id("value"), None, "var", ArrayCell(Id("arr"), [NumberLiteral(2.0)]))]))]))
         self.assertTrue(TestAST.test(input, expect, 312))
 
     
@@ -162,15 +162,24 @@ class ASTGenSuite(unittest.TestCase):
         var flag <- true and false
         end
         """
-        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("flag"), None, "var", BinaryOp("and", BooleanLiteral(True), BooleanLiteral(True)))]))]))
+        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("flag"), None, "var", BinaryOp("and", BooleanLiteral(True), BooleanLiteral(False)))]))]))
         self.assertTrue(TestAST.test(input, expect, 315))
 
     
     def test_316(self):
-        input = """
-        var result <- (5 + 3) * 2 - 4 / 2
+        input = """func nestedIfElse()
+        begin
+        if (x > 0) begin
+            if (x < 10) begin
+                if (x == 5) printString("x is 5")
+                else printString("x is between 0 and 10")
+            end
+            else printString("x is greater than 10")
+        end
+        else printString("x is not positive")
+        end
         """
-        expect = str(Program([VarDecl(Id("result"), None, "var", BinaryOp("-", BinaryOp("*", BinaryOp("+", NumberLiteral(5.0), NumberLiteral(3.0)), NumberLiteral(2.0)), BinaryOp("/", NumberLiteral(4.0), NumberLiteral(2.0))))]))
+        expect = str(Program([FuncDecl(Id("nestedIfElse"), [], Block([If(BinaryOp(">", Id("x"), NumberLiteral(0.0)), Block([If(BinaryOp("<", Id("x"), NumberLiteral(10.0)), Block([If(BinaryOp("==", Id("x"), NumberLiteral(5.0)), CallStmt(Id("printString"), [StringLiteral("x is 5")]), [], CallStmt(Id("printString"), [StringLiteral("x is between 0 and 10")]))]), [], CallStmt(Id("printString"), [StringLiteral("x is greater than 10")]))]), [], CallStmt(Id("printString"), [StringLiteral("x is not positive")]))]))]))
         self.assertTrue(TestAST.test(input, expect, 316))
 
     
@@ -210,7 +219,7 @@ class ASTGenSuite(unittest.TestCase):
         var sum <- arr[0] + arr[1] + arr[2]
         end
         """
-        expect = str(Program([FuncDecl(Id("sumArray"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(3.0)], NumberType()), None, None)], Block([VarDecl(Id("sum"), None, "var", BinaryOp("+", BinaryOp("+", ArrayCell(Id("arr"), [NumberLiteral(0.0)]), ArrayCell(Id("arr"), [NumberLiteral(1.0)])), ArrayCell(Id("arr"), [NumberLiteral(2.0)])))]))]))
+        expect = str(Program([FuncDecl(Id("sumArray"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(3)], NumberType()), None, None)], Block([VarDecl(Id("sum"), None, "var", BinaryOp("+", BinaryOp("+", ArrayCell(Id("arr"), [NumberLiteral(0.0)]), ArrayCell(Id("arr"), [NumberLiteral(1.0)])), ArrayCell(Id("arr"), [NumberLiteral(2.0)])))]))]))
         self.assertTrue(TestAST.test(input, expect, 319))
 
     
@@ -235,7 +244,7 @@ class ASTGenSuite(unittest.TestCase):
         end
 
         """
-        expect = str(Program([FuncDecl(Id("foo"), [VarDecl(Id("a"), ArrayType([NumberLiteral(5.0)], NumberType()), None, None), VarDecl(Id("b"), StringType(), None, None)], Block([VarDecl(Id("i"), None, "var", NumberLiteral(0.0)), For(Id("i"), BinaryOp(">=", Id("i"), NumberLiteral(5.0)), NumberLiteral(1.0), Block([Assign(ArrayCell(Id("a"), [Id("i")]), BinaryOp("+", BinaryOp("*", Id("i"), Id("i")), NumberLiteral(5.0)))])), Return(UnaryOp("-", NumberLiteral(1.0)))]))]))
+        expect = str(Program([FuncDecl(Id("foo"), [VarDecl(Id("a"), ArrayType([NumberLiteral(5)], NumberType()), None, None), VarDecl(Id("b"), StringType(), None, None)], Block([VarDecl(Id("i"), None, "var", NumberLiteral(0.0)), For(Id("i"), BinaryOp(">=", Id("i"), NumberLiteral(5.0)), NumberLiteral(1.0), Block([Assign(ArrayCell(Id("a"), [Id("i")]), BinaryOp("+", BinaryOp("*", Id("i"), Id("i")), NumberLiteral(5.0)))])), Return(UnaryOp("-", NumberLiteral(1.0)))]))]))
         self.assertTrue(TestAST.test(input, expect, 321))
 
     
@@ -272,7 +281,7 @@ class ASTGenSuite(unittest.TestCase):
         return true 
         end
         """
-        expect = str(Program([FuncDecl(Id("isPrime"), [VarDecl(Id("x"), NumberType(), None, None)], None), FuncDecl(Id("main"), [], Block([VarDecl(Id("x"), NumberType(), None, CallExpr(Id("readNumber"), [])), If(CallExpr(Id("isPrime"), [Id("x")]), CallStmt(Id("printString"), [StringLiteral("Yes")]), [], CallStmt(Id("printString"), [StringLiteral("No")]))])), FuncDecl(Id("isPrime"), [VarDecl(Id("x"), NumberType(), None, None)], Block([If(BinaryOp("<=", Id("x"), NumberLiteral(1.0)), Return(BooleanLiteral(True)), [], None), VarDecl(Id("i"), None, "var", NumberLiteral(2.0)), For(Id("i"), BinaryOp(">", Id("i"), BinaryOp("/", Id("x"), NumberLiteral(2.0))), NumberLiteral(1.0), Block([If(BinaryOp("=", BinaryOp("%", Id("x"), Id("i")), NumberLiteral(0.0)), Return(BooleanLiteral(True)), [], None)])), Return(BooleanLiteral(True))]))]))
+        expect = str(Program([FuncDecl(Id("isPrime"), [VarDecl(Id("x"), NumberType(), None, None)], None), FuncDecl(Id("main"), [], Block([VarDecl(Id("x"), NumberType(), None, CallExpr(Id("readNumber"), [])), If(CallExpr(Id("isPrime"), [Id("x")]), CallStmt(Id("printString"), [StringLiteral("Yes")]), [], CallStmt(Id("printString"), [StringLiteral("No")]))])), FuncDecl(Id("isPrime"), [VarDecl(Id("x"), NumberType(), None, None)], Block([If(BinaryOp("<=", Id("x"), NumberLiteral(1.0)), Return(BooleanLiteral(False)), [], None), VarDecl(Id("i"), None, "var", NumberLiteral(2.0)), For(Id("i"), BinaryOp(">", Id("i"), BinaryOp("/", Id("x"), NumberLiteral(2.0))), NumberLiteral(1.0), Block([If(BinaryOp("=", BinaryOp("%", Id("x"), Id("i")), NumberLiteral(0.0)), Return(BooleanLiteral(False)), [], None)])), Return(BooleanLiteral(True))]))]))
         self.assertTrue(TestAST.test(input, expect, 323))
 
     
@@ -282,7 +291,7 @@ class ASTGenSuite(unittest.TestCase):
         number b[2, 3] <- [[1, 2, 3], [4, 5, 6]]
         end
         """
-        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("b"), ArrayType([2, 3], NumberType()), None, ArrayLiteral([ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0)]), ArrayLiteral([NumberLiteral(4.0), NumberLiteral(5.0), NumberLiteral(6.0)])]))]))]))
+        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("b"), ArrayType([NumberLiteral(2), NumberLiteral(3)], NumberType()), None, ArrayLiteral([ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0)]), ArrayLiteral([NumberLiteral(4.0), NumberLiteral(5.0), NumberLiteral(6.0)])]))]))]))
         self.assertTrue(TestAST.test(input, expect, 324))
 
     
@@ -338,16 +347,13 @@ class ASTGenSuite(unittest.TestCase):
 
     
     def test_329(self):
-        input = """func factorial(number n) 
+        input = """func recursiveFactorial(number n)
         begin
-        if (n <= 1) 
-        begin
-        return 1
-        end
-        return n * factorial(n - 1)
+        if (n <= 1) return 1
+        else return n * recursiveFactorial(n - 1)
         end
         """
-        expect = str(Program([FuncDecl(Id("factorial"), [VarDecl(Id("n"), NumberType(), None, None)], Block([If(BinaryOp("<=", Id("n"), NumberLiteral(1.0)), Block([Return(NumberLiteral(1.0))]), [], None), Return(BinaryOp("*", Id("n"), CallExpr(Id("factorial"), [BinaryOp("-", Id("n"), NumberLiteral(1.0))])))]))]))
+        expect = str(Program([FuncDecl(Id("recursiveFactorial"), [VarDecl(Id("n"), NumberType(), None, None)], Block([If(BinaryOp("<=", Id("n"), NumberLiteral(1.0)), Return(NumberLiteral(1.0)), [], Return(BinaryOp("*", Id("n"), CallExpr(Id("recursiveFactorial"), [BinaryOp("-", Id("n"), NumberLiteral(1.0))]))))]))]))
         self.assertTrue(TestAST.test(input, expect, 329))
 
     
@@ -370,7 +376,7 @@ class ASTGenSuite(unittest.TestCase):
         end
         end
         """
-        expect = str(Program([FuncDecl(Id("processArray"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(5.0)], NumberType()), None, None)], Block([For(Id("i"), BinaryOp("<", Id("i"), NumberLiteral(5.0)), NumberLiteral(1.0), Block([Assign(ArrayCell(Id("arr"), [Id("i")]), BinaryOp("*", ArrayCell(Id("arr"), [Id("i")]), ArrayCell(Id("arr"), [Id("i")])))]))]))]))
+        expect = str(Program([FuncDecl(Id("processArray"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(5)], NumberType()), None, None)], Block([For(Id("i"), BinaryOp("<", Id("i"), NumberLiteral(5.0)), NumberLiteral(1.0), Block([Assign(ArrayCell(Id("arr"), [Id("i")]), BinaryOp("*", ArrayCell(Id("arr"), [Id("i")]), ArrayCell(Id("arr"), [Id("i")])))]))]))]))
         self.assertTrue(TestAST.test(input, expect, 331))
 
     
@@ -498,27 +504,25 @@ class ASTGenSuite(unittest.TestCase):
         end
         end
         """
-        expect = str(Program([FuncDecl(Id("processArray"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(5.0)], NumberType()), None, None)], Block([VarDecl(Id("sum"), None, "var", NumberLiteral(0.0)), VarDecl(Id("i"), None, "var", NumberLiteral(0.0)), For(Id("i"), BinaryOp("<", Id("i"), NumberLiteral(5.0)), NumberLiteral(1.0), Block([If(BinaryOp(">", ArrayCell(Id("arr"), [Id("i")]), NumberLiteral(0.0)), Block([Assign(Id("sum"), BinaryOp("+", Id("sum"), ArrayCell(Id("arr"), [Id("i")])))]), [], Block([Assign(Id("sum"), BinaryOp("-", Id("sum"), ArrayCell(Id("arr"), [Id("i")])))]))]))]))]))
+        expect = str(Program([FuncDecl(Id("processArray"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(5)], NumberType()), None, None)], Block([VarDecl(Id("sum"), None, "var", NumberLiteral(0.0)), VarDecl(Id("i"), None, "var", NumberLiteral(0.0)), For(Id("i"), BinaryOp("<", Id("i"), NumberLiteral(5.0)), NumberLiteral(1.0), Block([If(BinaryOp(">", ArrayCell(Id("arr"), [Id("i")]), NumberLiteral(0.0)), Block([Assign(Id("sum"), BinaryOp("+", Id("sum"), ArrayCell(Id("arr"), [Id("i")])))]), [], Block([Assign(Id("sum"), BinaryOp("-", Id("sum"), ArrayCell(Id("arr"), [Id("i")])))]))]))]))]))
         self.assertTrue(TestAST.test(input, expect, 339))
 
     
     def test_340(self):
-        input = """func generateMatrix() 
+        input = """func complexLoop()
         begin
-        number matrix[3, 3]
-        var i <- 0
-        for i until i < 3 by 1 
+        var sum <- 0
+        for i until i < 5 by 1
         begin
-        var j <- 0
-        for j until j < 3 by 1 
-        begin
-        matrix[i, j] <- i + j
+            for j until j < i by 1
+            begin
+                sum <- sum + i * j
+            end
         end
-        end
-        return matrix
+        return sum
         end
         """
-        expect = str(Program([FuncDecl(Id("generateMatrix"), [], Block([VarDecl(Id("matrix"), ArrayType([3, 3], NumberType()), None, None), VarDecl(Id("i"), None, "var", NumberLiteral(0.0)), For(Id("i"), BinaryOp("<", Id("i"), NumberLiteral(3.0)), NumberLiteral(1.0), Block([VarDecl(Id("j"), None, "var", NumberLiteral(0.0)), For(Id("j"), BinaryOp("<", Id("j"), NumberLiteral(3.0)), NumberLiteral(1.0), Block([Assign(ArrayCell(Id("matrix"), [Id("i"), Id("j")]), BinaryOp("+", Id("i"), Id("j")))]))])), Return(Id("matrix"))]))]))
+        expect = str(Program([FuncDecl(Id("complexLoop"), [], Block([VarDecl(Id("sum"), None, "var", NumberLiteral(0.0)), For(Id("i"), BinaryOp("<", Id("i"), NumberLiteral(5.0)), NumberLiteral(1.0), Block([For(Id("j"), BinaryOp("<", Id("j"), Id("i")), NumberLiteral(1.0), Block([Assign(Id("sum"), BinaryOp("+", Id("sum"), BinaryOp("*", Id("i"), Id("j"))))]))])), Return(Id("sum"))]))]))
         self.assertTrue(TestAST.test(input, expect, 340))
 
     
@@ -588,7 +592,7 @@ class ASTGenSuite(unittest.TestCase):
 
     
     def test_346(self):
-        input = """func sumArray(number arr[], number size)
+        input = """func sumArray(number arr[3], number size)
         begin
         if (size = 0) return 0
         else return arr[size - 1] + sumArray(arr, size - 1)
@@ -599,7 +603,7 @@ class ASTGenSuite(unittest.TestCase):
         var total <- sumArray(myArray, 5)
         end
         """
-        expect = str(Program([FuncDecl(Id("sumArray"), [VarDecl(Id("arr"), ArrayType([], NumberType()), None, None), VarDecl(Id("size"), NumberType(), None, None)], Block([If(BinaryOp("=", Id("size"), NumberLiteral(0.0)), Return(NumberLiteral(0.0)), [], Return(BinaryOp("+", ArrayCell(Id("arr"), [BinaryOp("-", Id("size"), NumberLiteral(1.0))]), CallExpr(Id("sumArray"), [Id("arr"), BinaryOp("-", Id("size"), NumberLiteral(1.0))]))))])), FuncDecl(Id("main"), [], Block([VarDecl(Id("myArray"), ArrayType([5], NumberType()), None, ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0), NumberLiteral(4.0), NumberLiteral(5.0)])), VarDecl(Id("total"), None, "var", CallExpr(Id("sumArray"), [Id("myArray"), NumberLiteral(5.0)]))]))]))
+        expect = str(Program([FuncDecl(Id("sumArray"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(3)], NumberType()), None, None), VarDecl(Id("size"), NumberType(), None, None)], Block([If(BinaryOp("=", Id("size"), NumberLiteral(0.0)), Return(NumberLiteral(0.0)), [], Return(BinaryOp("+", ArrayCell(Id("arr"), [BinaryOp("-", Id("size"), NumberLiteral(1.0))]), CallExpr(Id("sumArray"), [Id("arr"), BinaryOp("-", Id("size"), NumberLiteral(1.0))]))))])), FuncDecl(Id("main"), [], Block([VarDecl(Id("myArray"), ArrayType([NumberLiteral(5)], NumberType()), None, ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0), NumberLiteral(4.0), NumberLiteral(5.0)])), VarDecl(Id("total"), None, "var", CallExpr(Id("sumArray"), [Id("myArray"), NumberLiteral(5.0)]))]))]))
         self.assertTrue(TestAST.test(input, expect, 346))
 
     
@@ -623,7 +627,7 @@ class ASTGenSuite(unittest.TestCase):
         var element <- matrix[1,0]
         end
         """
-        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("matrix"), ArrayType([2, 2], NumberType()), None, ArrayLiteral([ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0)]), ArrayLiteral([NumberLiteral(3.0), NumberLiteral(4.0)])])), VarDecl(Id("element"), None, "var", ArrayCell(Id("matrix"), [NumberLiteral(1.0), NumberLiteral(0.0)]))]))]))
+        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("matrix"), ArrayType([NumberLiteral(2), NumberLiteral(2)], NumberType()), None, ArrayLiteral([ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0)]), ArrayLiteral([NumberLiteral(3.0), NumberLiteral(4.0)])])), VarDecl(Id("element"), None, "var", ArrayCell(Id("matrix"), [NumberLiteral(1.0), NumberLiteral(0.0)]))]))]))
         self.assertTrue(TestAST.test(input, expect, 348))
 
     
@@ -648,14 +652,20 @@ class ASTGenSuite(unittest.TestCase):
         input = """number matrix[3, 3] <- [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
         var diagonalSum <- matrix[0,0] + matrix[1,1] + matrix[2,2]
         """
-        expect = str(Program([VarDecl(Id("matrix"), ArrayType([3, 3], NumberType()), None, ArrayLiteral([ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0)]), ArrayLiteral([NumberLiteral(4.0), NumberLiteral(5.0), NumberLiteral(6.0)]), ArrayLiteral([NumberLiteral(7.0), NumberLiteral(8.0), NumberLiteral(9.0)])])), VarDecl(Id("diagonalSum"), None, "var", BinaryOp("+", BinaryOp("+", ArrayCell(Id("matrix"), [NumberLiteral(0.0), NumberLiteral(0.0)]), ArrayCell(Id("matrix"), [NumberLiteral(1.0), NumberLiteral(1.0)])), ArrayCell(Id("matrix"), [NumberLiteral(2.0), NumberLiteral(2.0)])))]))
+        expect = str(Program([VarDecl(Id("matrix"), ArrayType([NumberLiteral(3), NumberLiteral(3)], NumberType()), None, ArrayLiteral([ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0)]), ArrayLiteral([NumberLiteral(4.0), NumberLiteral(5.0), NumberLiteral(6.0)]), ArrayLiteral([NumberLiteral(7.0), NumberLiteral(8.0), NumberLiteral(9.0)])])), VarDecl(Id("diagonalSum"), None, "var", BinaryOp("+", BinaryOp("+", ArrayCell(Id("matrix"), [NumberLiteral(0.0), NumberLiteral(0.0)]), ArrayCell(Id("matrix"), [NumberLiteral(1.0), NumberLiteral(1.0)])), ArrayCell(Id("matrix"), [NumberLiteral(2.0), NumberLiteral(2.0)])))]))
         self.assertTrue(TestAST.test(input, expect, 351))
 
     
     def test_352(self):
-        input = """var message <- "The value of x is: " ... 10
+        input = """func nestedArrayOperations()
+        begin
+        number matrix[2, 2] <- [[1, 2], [3, 4]]
+        var sum <- matrix[0, 0] + matrix[1, 1]
+        matrix[0, 1] <- sum - matrix[1, 0]
+        return matrix
+        end
         """
-        expect = str(Program([VarDecl(Id("message"), None, "var", BinaryOp("...", StringLiteral("The value of x is: "), NumberLiteral(10.0)))]))
+        expect = str(Program([FuncDecl(Id("nestedArrayOperations"), [], Block([VarDecl(Id("matrix"), ArrayType([NumberLiteral(2), NumberLiteral(2)], NumberType()), None, ArrayLiteral([ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0)]), ArrayLiteral([NumberLiteral(3.0), NumberLiteral(4.0)])])), VarDecl(Id("sum"), None, "var", BinaryOp("+", ArrayCell(Id("matrix"), [NumberLiteral(0.0), NumberLiteral(0.0)]), ArrayCell(Id("matrix"), [NumberLiteral(1.0), NumberLiteral(1.0)]))), Assign(ArrayCell(Id("matrix"), [NumberLiteral(0.0), NumberLiteral(1.0)]), BinaryOp("-", Id("sum"), ArrayCell(Id("matrix"), [NumberLiteral(1.0), NumberLiteral(0.0)]))), Return(Id("matrix"))]))]))
         self.assertTrue(TestAST.test(input, expect, 352))
 
     
@@ -670,7 +680,7 @@ class ASTGenSuite(unittest.TestCase):
         return true
         end
         """
-        expect = str(Program([FuncDecl(Id("isPalindrome"), [VarDecl(Id("str"), StringType(), None, None)], Block([VarDecl(Id("length"), None, "var", Id("strlength")), For(Id("i"), BinaryOp("<", Id("i"), BinaryOp("/", Id("length"), NumberLiteral("2.0"))), NumberLiteral(1.0), Block([If(BinaryOp("!=", ArrayCell(Id("str"), [Id("i")]), ArrayCell(Id("str"), [BinaryOp("-", BinaryOp("-", Id("length"), Id("i")), NumberLiteral(1.0))])), Return(BooleanLiteral(True)), [], None)])), Return(BooleanLiteral(True))]))]))
+        expect = str(Program([FuncDecl(Id("isPalindrome"), [VarDecl(Id("str"), StringType(), None, None)], Block([VarDecl(Id("length"), None, "var", Id("strlength")), For(Id("i"), BinaryOp("<", Id("i"), BinaryOp("/", Id("length"), NumberLiteral("2.0"))), NumberLiteral(1.0), Block([If(BinaryOp("!=", ArrayCell(Id("str"), [Id("i")]), ArrayCell(Id("str"), [BinaryOp("-", BinaryOp("-", Id("length"), Id("i")), NumberLiteral(1.0))])), Return(BooleanLiteral(False)), [], None)])), Return(BooleanLiteral(True))]))]))
         self.assertTrue(TestAST.test(input, expect, 353))
 
     
@@ -694,7 +704,7 @@ class ASTGenSuite(unittest.TestCase):
     def test_356(self):
         input = """number data[] <- [10, 20, 30, 40, 50]
         """
-        expect = str(Program([VarDecl(Id("data"), ArrayType(["<missing NUMLIT>"], NumberType()), None, ArrayLiteral([NumberLiteral(10.0), NumberLiteral(20.0), NumberLiteral(30.0), NumberLiteral(40.0), NumberLiteral(50.0)]))]))
+        expect = str(Program([VarDecl(Id("data"), ArrayType([NumberLiteral("<missing NUMLIT>")], NumberType()), None, ArrayLiteral([NumberLiteral(10.0), NumberLiteral(20.0), NumberLiteral(30.0), NumberLiteral(40.0), NumberLiteral(50.0)]))]))
         self.assertTrue(TestAST.test(input, expect, 356))
 
     
@@ -706,7 +716,7 @@ class ASTGenSuite(unittest.TestCase):
 
     
     def test_358(self):
-        input = """func bubbleSort(number arr[], number size) begin
+        input = """func bubbleSort(number arr[1], number size) begin
         for i until i < size - 1 by 1 begin
         for j until j < size - i - 1 by 1 begin
         if (arr[j] > arr[j + 1]) begin
@@ -718,7 +728,7 @@ class ASTGenSuite(unittest.TestCase):
         end
         end
         """
-        expect = str(Program([FuncDecl(Id("bubbleSort"), [VarDecl(Id("arr"), ArrayType([], NumberType()), None, None), VarDecl(Id("size"), NumberType(), None, None)], Block([For(Id("i"), BinaryOp("<", Id("i"), BinaryOp("-", Id("size"), NumberLiteral(1.0))), NumberLiteral(1.0), Block([For(Id("j"), BinaryOp("<", Id("j"), BinaryOp("-", BinaryOp("-", Id("size"), Id("i")), NumberLiteral(1.0))), NumberLiteral(1.0), Block([If(BinaryOp(">", ArrayCell(Id("arr"), [Id("j")]), ArrayCell(Id("arr"), [BinaryOp("+", Id("j"), NumberLiteral(1.0))])), Block([VarDecl(Id("temp"), None, "var", ArrayCell(Id("arr"), [Id("j")])), Assign(ArrayCell(Id("arr"), [Id("j")]), ArrayCell(Id("arr"), [BinaryOp("+", Id("j"), NumberLiteral(1.0))])), Assign(ArrayCell(Id("arr"), [BinaryOp("+", Id("j"), NumberLiteral(1.0))]), Id("temp"))]), [], None)]))]))]))]))
+        expect = str(Program([FuncDecl(Id("bubbleSort"), [VarDecl(Id("arr"), ArrayType([NumberLiteral(1)], NumberType()), None, None), VarDecl(Id("size"), NumberType(), None, None)], Block([For(Id("i"), BinaryOp("<", Id("i"), BinaryOp("-", Id("size"), NumberLiteral(1.0))), NumberLiteral(1.0), Block([For(Id("j"), BinaryOp("<", Id("j"), BinaryOp("-", BinaryOp("-", Id("size"), Id("i")), NumberLiteral(1.0))), NumberLiteral(1.0), Block([If(BinaryOp(">", ArrayCell(Id("arr"), [Id("j")]), ArrayCell(Id("arr"), [BinaryOp("+", Id("j"), NumberLiteral(1.0))])), Block([VarDecl(Id("temp"), None, "var", ArrayCell(Id("arr"), [Id("j")])), Assign(ArrayCell(Id("arr"), [Id("j")]), ArrayCell(Id("arr"), [BinaryOp("+", Id("j"), NumberLiteral(1.0))])), Assign(ArrayCell(Id("arr"), [BinaryOp("+", Id("j"), NumberLiteral(1.0))]), Id("temp"))]), [], None)]))]))]))]))
         self.assertTrue(TestAST.test(input, expect, 358))
 
     
@@ -766,7 +776,7 @@ class ASTGenSuite(unittest.TestCase):
     def test_364(self):
         input = """number emptyarray[]
         """
-        expect = str(Program([VarDecl(Id("emptyarray"), ArrayType(["<missing NUMLIT>"], NumberType()), None, None)]))
+        expect = str(Program([VarDecl(Id("emptyarray"), ArrayType([NumberLiteral("<missing NUMLIT>")], NumberType()), None, None)]))
         self.assertTrue(TestAST.test(input, expect, 364))
 
     
@@ -774,14 +784,14 @@ class ASTGenSuite(unittest.TestCase):
         input = """number moreemptyarray[] <- [[[[]]]]
 
         """
-        expect = str(Program([VarDecl(Id("moreemptyarray"), ArrayType(["<missing NUMLIT>"], NumberType()), None, ArrayLiteral([ArrayLiteral([ArrayLiteral([None])])]))]))
+        expect = str(Program([VarDecl(Id('moreemptyarray'), ArrayType([NumberLiteral('<missing NUMLIT>')], NumberType()), None, ArrayLiteral([ArrayLiteral([ArrayLiteral([ArrayLiteral([])])])]))]))
         self.assertTrue(TestAST.test(input, expect, 365))
 
     
     def test_366(self):
         input = """var result <- true or false
         """
-        expect = str(Program([VarDecl(Id("result"), None, "var", BinaryOp("or", BooleanLiteral(True), BooleanLiteral(True)))]))
+        expect = str(Program([VarDecl(Id("result"), None, "var", BinaryOp("or", BooleanLiteral(True), BooleanLiteral(False)))]))
         self.assertTrue(TestAST.test(input, expect, 366))
 
     
@@ -792,7 +802,7 @@ class ASTGenSuite(unittest.TestCase):
         values[1] <- values[1] + 10
         end
         """
-        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("values"), ArrayType([3], NumberType()), None, ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0)])), Assign(ArrayCell(Id("values"), [NumberLiteral(1.0)]), BinaryOp("+", ArrayCell(Id("values"), [NumberLiteral(1.0)]), NumberLiteral(10.0)))]))]))
+        expect = str(Program([FuncDecl(Id("main"), [], Block([VarDecl(Id("values"), ArrayType([NumberLiteral(3)], NumberType()), None, ArrayLiteral([NumberLiteral(1.0), NumberLiteral(2.0), NumberLiteral(3.0)])), Assign(ArrayCell(Id("values"), [NumberLiteral(1.0)]), BinaryOp("+", ArrayCell(Id("values"), [NumberLiteral(1.0)]), NumberLiteral(10.0)))]))]))
         self.assertTrue(TestAST.test(input, expect, 367))
 
     
@@ -807,7 +817,7 @@ class ASTGenSuite(unittest.TestCase):
     def test_369(self):
         input = """number triangle[1,1] <- triangle[i - 1,j - 1] + triangle[i - 1,j]
         """
-        expect = str(Program([VarDecl(Id("triangle"), ArrayType([1, 1], NumberType()), None, BinaryOp("+", ArrayCell(Id("triangle"), [BinaryOp("-", Id("i"), NumberLiteral(1.0)), BinaryOp("-", Id("j"), NumberLiteral(1.0))]), ArrayCell(Id("triangle"), [BinaryOp("-", Id("i"), NumberLiteral(1.0)), Id("j")])))]))
+        expect = str(Program([VarDecl(Id("triangle"), ArrayType([NumberLiteral(1), NumberLiteral(1)], NumberType()), None, BinaryOp("+", ArrayCell(Id("triangle"), [BinaryOp("-", Id("i"), NumberLiteral(1.0)), BinaryOp("-", Id("j"), NumberLiteral(1.0))]), ArrayCell(Id("triangle"), [BinaryOp("-", Id("i"), NumberLiteral(1.0)), Id("j")])))]))
         self.assertTrue(TestAST.test(input, expect, 369))
 
     
@@ -859,13 +869,14 @@ class ASTGenSuite(unittest.TestCase):
 
     
     def test_376(self):
-        input = """func flipCoin() 
+        input = """func calculate(number a, number b, number c)
         begin
-        var result <- ["Heads", "Tails"]
-        return result[rand(0, 1)]
+        var result <- (a + b * c) / (a - c)
+        if (result < 0) return "Negative"
+        else return "Non-negative"
         end
         """
-        expect = str(Program([FuncDecl(Id("flipCoin"), [], Block([VarDecl(Id("result"), None, "var", ArrayLiteral([StringLiteral("Heads"), StringLiteral("Tails")])), Return(ArrayCell(Id("result"), [CallExpr(Id("rand"), [NumberLiteral(0.0), NumberLiteral(1.0)])]))]))]))
+        expect = str(Program([FuncDecl(Id("calculate"), [VarDecl(Id("a"), NumberType(), None, None), VarDecl(Id("b"), NumberType(), None, None), VarDecl(Id("c"), NumberType(), None, None)], Block([VarDecl(Id("result"), None, "var", BinaryOp("/", BinaryOp("+", Id("a"), BinaryOp("*", Id("b"), Id("c"))), BinaryOp("-", Id("a"), Id("c")))), If(BinaryOp("<", Id("result"), NumberLiteral(0.0)), Return(StringLiteral("Negative")), [], Return(StringLiteral("Non-negative")))]))]))
         self.assertTrue(TestAST.test(input, expect, 376))
 
     
@@ -913,7 +924,7 @@ class ASTGenSuite(unittest.TestCase):
         return prime
         end
         """
-        expect = str(Program([FuncDecl(Id("findPrime"), [VarDecl(Id("n"), NumberType(), None, None)], Block([VarDecl(Id("prime"), None, "var", BooleanLiteral(True)), For(Id("i"), BinaryOp("<", Id("i"), Id("n")), NumberLiteral(1.0), Block([If(BinaryOp("==", BinaryOp("%", Id("n"), Id("i")), NumberLiteral(0.0)), Block([Assign(Id("prime"), BooleanLiteral(True)), Break()]), [], None)])), Return(Id("prime"))]))]))
+        expect = str(Program([FuncDecl(Id("findPrime"), [VarDecl(Id("n"), NumberType(), None, None)], Block([VarDecl(Id("prime"), None, "var", BooleanLiteral(True)), For(Id("i"), BinaryOp("<", Id("i"), Id("n")), NumberLiteral(1.0), Block([If(BinaryOp("==", BinaryOp("%", Id("n"), Id("i")), NumberLiteral(0.0)), Block([Assign(Id("prime"), BooleanLiteral(False)), Break()]), [], None)])), Return(Id("prime"))]))]))
         self.assertTrue(TestAST.test(input, expect, 381))
 
     
@@ -981,7 +992,7 @@ class ASTGenSuite(unittest.TestCase):
         begin
         if (x > 0) print("x is positive") 
         if ((y > 0) and (z > 0)) print("Both y and z are positive")
-        elif (y < 0) and (z < 0) print("Both y and z are negative")
+        elif ((y < 0) and (z < 0)) print("Both y and z are negative")
         else print("One of y or z is non-positive")
         end
         """
@@ -1060,10 +1071,17 @@ class ASTGenSuite(unittest.TestCase):
 
     
     def test_399(self):
-        input = """func thank_you_for_checking_it_out()
-        return "^______^"
+        input = """func calculatePower(number base, number exponent)
+        begin
+        var result <- 1
+        for i until i < exponent by 1
+        begin
+            result <- result * base
+        end
+        return result
+        end
         """
-        expect = str(Program([FuncDecl(Id("thank_you_for_checking_it_out"), [], Return(StringLiteral("^______^")))]))
+        expect = str(Program([FuncDecl(Id("calculatePower"), [VarDecl(Id("base"), NumberType(), None, None), VarDecl(Id("exponent"), NumberType(), None, None)], Block([VarDecl(Id("result"), None, "var", NumberLiteral(1.0)), For(Id("i"), BinaryOp("<", Id("i"), Id("exponent")), NumberLiteral(1.0), Block([Assign(Id("result"), BinaryOp("*", Id("result"), Id("base")))])), Return(Id("result"))]))]))
         self.assertTrue(TestAST.test(input, expect, 399))
 
     

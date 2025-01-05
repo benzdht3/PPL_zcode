@@ -1,0 +1,1 @@
+Program([VarDecl(Id(result), None, var, BinaryOp(/, BinaryOp(+, CallExpr(Id(factorial), [NumLit(5.0)]), CallExpr(Id(fibonacci), [NumLit(8.0)])), CallExpr(Id(sumArray), [ArrayLit(NumLit(1.0), NumLit(2.0), NumLit(3.0), NumLit(4.0), NumLit(5.0))])))])

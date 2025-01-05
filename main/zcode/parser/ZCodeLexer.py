@@ -111,12 +111,12 @@ def serializedATN():
         buf.write("\2\2\u00d0\u00d1\7\'\2\2\u00d1\62\3\2\2\2\u00d2\u00d3")
         buf.write("\7\60\2\2\u00d3\u00d4\7\60\2\2\u00d4\u00d5\7\60\2\2\u00d5")
         buf.write("\64\3\2\2\2\u00d6\u00d7\7>\2\2\u00d7\u00d8\7/\2\2\u00d8")
-        buf.write("\66\3\2\2\2\u00d9\u00e4\7?\2\2\u00da\u00db\7?\2\2\u00db")
-        buf.write("\u00e4\7?\2\2\u00dc\u00dd\7#\2\2\u00dd\u00e4\7?\2\2\u00de")
-        buf.write("\u00e4\t\2\2\2\u00df\u00e0\7>\2\2\u00e0\u00e4\7?\2\2\u00e1")
-        buf.write("\u00e2\7@\2\2\u00e2\u00e4\7?\2\2\u00e3\u00d9\3\2\2\2\u00e3")
-        buf.write("\u00da\3\2\2\2\u00e3\u00dc\3\2\2\2\u00e3\u00de\3\2\2\2")
-        buf.write("\u00e3\u00df\3\2\2\2\u00e3\u00e1\3\2\2\2\u00e48\3\2\2")
+        buf.write("\66\3\2\2\2\u00d9\u00da\7?\2\2\u00da\u00e4\7?\2\2\u00db")
+        buf.write("\u00dc\7@\2\2\u00dc\u00e4\7?\2\2\u00dd\u00de\7>\2\2\u00de")
+        buf.write("\u00e4\7?\2\2\u00df\u00e4\t\2\2\2\u00e0\u00e1\7#\2\2\u00e1")
+        buf.write("\u00e4\7?\2\2\u00e2\u00e4\7?\2\2\u00e3\u00d9\3\2\2\2\u00e3")
+        buf.write("\u00db\3\2\2\2\u00e3\u00dd\3\2\2\2\u00e3\u00df\3\2\2\2")
+        buf.write("\u00e3\u00e0\3\2\2\2\u00e3\u00e2\3\2\2\2\u00e48\3\2\2")
         buf.write("\2\u00e5\u00e6\7.\2\2\u00e6:\3\2\2\2\u00e7\u00e8\7]\2")
         buf.write("\2\u00e8<\3\2\2\2\u00e9\u00ea\7_\2\2\u00ea>\3\2\2\2\u00eb")
         buf.write("\u00ec\7*\2\2\u00ec@\3\2\2\2\u00ed\u00ee\7+\2\2\u00ee")
@@ -295,7 +295,7 @@ class ZCodeLexer(Lexer):
             			txt = self.text[1:-1]
             			pos = 0
             			l = len(txt)
-            			while pos < l: 
+            			while pos < l:
             				while pos < l and txt[pos] != '\\':
             					pos += 1
             				pos += 1

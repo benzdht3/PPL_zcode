@@ -1,1 +1,1 @@
-Program([VarDecl(Id(result), None, var, BinaryOp(or, BooleanLit(True), BooleanLit(True)))])
+Program([VarDecl(Id(result), None, var, BinaryOp(or, BooleanLit(True), BooleanLit(False)))])

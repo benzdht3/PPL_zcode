@@ -1,0 +1,1 @@
+Program([VarDecl(Id(moreemptyarray), ArrayType([NumLit(<missing NUMLIT>)], NumberType), None, ArrayLit(ArrayLit(ArrayLit(ArrayLit()))))])

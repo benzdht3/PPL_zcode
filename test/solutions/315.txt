@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(main), [], Block([VarDecl(Id(flag), None, var, BinaryOp(and, BooleanLit(True), BooleanLit(True)))]))])
+Program([FuncDecl(Id(main), [], Block([VarDecl(Id(flag), None, var, BinaryOp(and, BooleanLit(True), BooleanLit(False)))]))])

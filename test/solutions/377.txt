@@ -1,0 +1,1 @@
+Program([VarDecl(Id(coffeeShopNames), None, var, ArrayLit(StringLit(Phuc Long), StringLit(Cong Caphe), StringLit(Highlands Coffee), StringLit(Trung Nguyen))), VarDecl(Id(randomCoffeeShop), None, var, ArrayCell(Id(coffeeShopNames), [CallExpr(Id(rand), [NumLit(0.0), BinaryOp(-, CallExpr(Id(len), [Id(coffeeShopNames)]), NumLit(1.0))])]))])

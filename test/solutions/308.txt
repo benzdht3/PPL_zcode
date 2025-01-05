@@ -1,1 +1,1 @@
-Program([VarDecl(Id(a), ArrayType([1], NumberType), None, None)])
+Program([VarDecl(Id(a), ArrayType([NumLit(1)], NumberType), None, None)])

@@ -1,1 +1,1 @@
-Program([FuncDecl(Id(sumArray), [VarDecl(Id(arr), ArrayType([NumLit(3.0)], NumberType), None, None)], Block([VarDecl(Id(sum), None, var, BinaryOp(+, BinaryOp(+, ArrayCell(Id(arr), [NumLit(0.0)]), ArrayCell(Id(arr), [NumLit(1.0)])), ArrayCell(Id(arr), [NumLit(2.0)])))]))])
+Program([FuncDecl(Id(sumArray), [VarDecl(Id(arr), ArrayType([NumLit(3)], NumberType), None, None)], Block([VarDecl(Id(sum), None, var, BinaryOp(+, BinaryOp(+, ArrayCell(Id(arr), [NumLit(0.0)]), ArrayCell(Id(arr), [NumLit(1.0)])), ArrayCell(Id(arr), [NumLit(2.0)])))]))])

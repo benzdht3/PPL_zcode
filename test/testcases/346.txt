@@ -1,4 +1,4 @@
-func sumArray(number arr[], number size)
+func sumArray(number arr[3], number size)
         begin
         if (size = 0) return 0
         else return arr[size - 1] + sumArray(arr, size - 1)

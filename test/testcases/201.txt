@@ -1,2 +1,2 @@
-func main () return 1
+var a <- funcwitharr([1,-2,3])
         

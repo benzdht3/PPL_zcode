@@ -1,0 +1,1 @@
+Program([FuncDecl(Id(findPrime), [VarDecl(Id(n), NumberType, None, None)], Block([VarDecl(Id(prime), None, var, BooleanLit(True)), For(Id(i), BinaryOp(<, Id(i), Id(n)), NumLit(1.0), Block([If((BinaryOp(==, BinaryOp(%, Id(n), Id(i)), NumLit(0.0)), Block([AssignStmt(Id(prime), BooleanLit(False)), Break])), [], None)])), Return(Id(prime))]))])

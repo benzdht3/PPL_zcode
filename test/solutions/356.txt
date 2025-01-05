@@ -1,0 +1,1 @@
+Program([VarDecl(Id(data), ArrayType([NumLit(<missing NUMLIT>)], NumberType), None, ArrayLit(NumLit(10.0), NumLit(20.0), NumLit(30.0), NumLit(40.0), NumLit(50.0)))])
